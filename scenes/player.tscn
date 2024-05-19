@@ -1,0 +1,115 @@
+[gd_scene load_steps=15 format=3 uid="uid://bc8kxblrvedca"]
+
+[ext_resource type="Texture2D" uid="uid://n2jj6hnoduv" path="res://assets/0x72_DungeonTilesetII_v1.3.png" id="1_65l1p"]
+[ext_resource type="Script" path="res://scripts/StateMachine/StateMachine.gd" id="2_40iju"]
+[ext_resource type="Script" path="res://scripts/StateMachine/player_idle.gd" id="3_6m3gb"]
+[ext_resource type="Script" path="res://scripts/StateMachine/player_movement.gd" id="4_oyqwb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_62svl"]
+atlas = ExtResource("1_65l1p")
+region = Rect2(128, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o7aht"]
+atlas = ExtResource("1_65l1p")
+region = Rect2(144, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26wom"]
+atlas = ExtResource("1_65l1p")
+region = Rect2(160, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7crs"]
+atlas = ExtResource("1_65l1p")
+region = Rect2(176, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xo30i"]
+atlas = ExtResource("1_65l1p")
+region = Rect2(192, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yyhev"]
+atlas = ExtResource("1_65l1p")
+region = Rect2(208, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47g8i"]
+atlas = ExtResource("1_65l1p")
+region = Rect2(224, 96, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7tne"]
+atlas = ExtResource("1_65l1p")
+region = Rect2(240, 96, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_673ql"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_62svl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o7aht")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26wom")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7crs")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xo30i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yyhev")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_47g8i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m7tne")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hu7vq"]
+size = Vector2(10, 9)
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -16)
+sprite_frames = SubResource("SpriteFrames_673ql")
+animation = &"moving"
+frame_progress = 0.562234
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_hu7vq")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("2_40iju")
+initial_state = NodePath("PlayerMovement")
+
+[node name="PlayerIdle" type="Node" parent="StateMachine"]
+script = ExtResource("3_6m3gb")
+
+[node name="PlayerMovement" type="Node" parent="StateMachine"]
+script = ExtResource("4_oyqwb")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -88.0
+offset_top = -87.0
+offset_right = 89.0
+offset_bottom = -27.0
+text = "Alguma coisa"
+horizontal_alignment = 1
